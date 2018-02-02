@@ -1,0 +1,16 @@
+{
+  "name": "cryptominion-scraper",
+  "version": "1.0.0",
+  "description": "A web scraper to gather historic for cryptocurrency exchange and store it in mongo",
+  "author": "holyoak",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon --watch src/server --watch src/server",
+    "start": "node src/server"
+  },
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "gdax": "^0.5.1",
+    "mongodb": "^3.0.1"
+  }
+}
