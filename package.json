@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "chalk": "^2.3.0",
-    "gdax": "^0.5.1",
     "mongodb": "^3.0.1"
   }
 }
