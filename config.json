@@ -1,10 +1,12 @@
 {
-  "dbUrl": "mongodb://localhost:27017",
-  "dbName": "scraper",
-  "interval_in_hours": 3,
-  "logDir": "log",
-  "targetAPIurl": "api.gdax.com",
+  "db": {
+    "name": "scraper",
+    "url": "mongodb://localhost:27017"
+  },
   "targetExchange": "GDAX",
-  "targetProduct": "BCH-USD",
-  "targetProductString": ["https://api.gdax.com/products/" , "targetProduct" , "/candles?granularity=60&start=" , "start" , "&end=" , "end"]
+  "targetAPIurl": "api.gdax.com",
+  "targetProductString": ["https://api.gdax.com/products/" , "targetProduct" , "/candles?granularity=60&start=" , "start" , "&end=" , "end"],
+  "targetProducts": ["BCH-USD", "BTC-USD"],
+  "interval_in_hours": 3,
+  "logDir": "log"
 }
