@@ -8,7 +8,7 @@ const MongoClient = require('mongodb').MongoClient
 const config = require('../config.json')
 const utils = require('./utils')
 
-let timeStamp = new Date()
+let timeStamp = new Date('Friday, December 22, 2017 12:53:20 AM GMT-08:00')
 const app = {}
 
 MongoClient.connect(config.dbUrl, function (err, client) {
