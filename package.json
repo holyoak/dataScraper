@@ -5,8 +5,8 @@
   "author": "holyoak",
   "private": true,
   "scripts": {
-    "dev": "nodemon --watch src/server --watch src/server",
-    "start": "node src/server"
+    "dev": "nodemon --watch src src",
+    "start": "node src"
   },
   "dependencies": {
     "chalk": "^2.3.0",

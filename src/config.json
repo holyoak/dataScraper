@@ -1,0 +1,9 @@
+{
+  "targetExchange": "GDAX",
+  "targetProduct": "BCH-USD",
+  "targetAPIurl": "api.gdax.com",
+  "targetProductString": ["/products/" , "targetProduct" , "/candles?granularity=60&start=" , "start" , "&end=" , "end"],
+  "dbUrl": "mongodb://localhost:27017",
+  "dbName": "scraper",
+  "step": 3
+}

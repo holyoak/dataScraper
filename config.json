@@ -1,0 +1,10 @@
+{
+  "dbUrl": "mongodb://localhost:27017",
+  "dbName": "scraper",
+  "interval_in_hours": 3,
+  "logDir": "log",
+  "targetAPIurl": "api.gdax.com",
+  "targetExchange": "GDAX",
+  "targetProduct": "BCH-USD",
+  "targetProductString": ["https://api.gdax.com/products/" , "targetProduct" , "/candles?granularity=60&start=" , "start" , "&end=" , "end"]
+}
