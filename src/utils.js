@@ -6,6 +6,7 @@ const config = require('../config.json')
 
 module.exports = {
   getTargetString: getTargetString,
+  selectCollection: selectCollection,
   insertData: insertData,
   log: log,
   normData: normData,
@@ -14,17 +15,23 @@ module.exports = {
 
 let logger = fs.createWriteStream(config.logDir + '/data-minion.log.txt', {'flags': 'a'})
 
-function getTargetString (config, times) {
+function getTargetString (config, times, product) {
   let res =  config.targetProductString.map(function(x){
     switch (x) {
       case 'start': return times.start
       case 'end': return times.end
-      case 'targetProduct': return config.targetProduct
+      case 'targetProduct': return config.targetProducts[product]
       default : return x
     }
   })
   res = res.join('')
   return res
+}
+
+function selectCollection (client, target) {
+  let db = client.db(config.db.name)
+  let collection = db.collection(target)
+  return collection
 }
 
 function insertData (client, db, data, callback) {
@@ -67,7 +74,7 @@ function normData (data) {
         high: x[2],
         open: x[3],
         close: x[4],
-        volume:x[5]  
+        volume:x[5]
       }
     })
     // insert empty candles

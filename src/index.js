@@ -8,10 +8,11 @@ const MongoClient = require('mongodb').MongoClient
 const config = require('../config.json')
 const utils = require('./utils')
 
-let timeStamp = new Date('Friday, December 22, 2017 12:53:20 AM GMT-08:00')
+let timeStamp = new Date()
+let currTargProd = 0
 const app = {}
 
-MongoClient.connect(config.dbUrl, function (err, client) {
+MongoClient.connect(config.db.url, function (err, client) {
   console.log('connecting to mongo')
   if (err) {
     console.log('MonggDB error')
@@ -20,16 +21,14 @@ MongoClient.connect(config.dbUrl, function (err, client) {
     utils.endProcess(1, null)
   }
   else {
-    const db = client.db(config.dbName)
-    const collection = db.collection(config.targetExchange + '-' + config.targetProduct)
     app.client = client
-    app.db = collection
-    const message = 'Starting data-minion history for '
-      + config.targetExchange + '/' + config.targetProduct + '\n'
-      + 'Connected successfully to ' + config.dbName + ' database'
-    console.log(chalk.green(message))
-    utils.log(message)
-    init(collection, client)
+    app.db = utils.selectCollection(app.client, config.targetExchange + '-' + config.targetProducts[currTargProd])
+    console.log(chalk.green('Connected successfully to ' + config.db.name + ' database'))
+    utils.log('Connected successfully to ' + config.db.name + ' database')
+    let msg = 'Starting data-minion history for ' + app.db.s.name
+    console.log(msg)
+    utils.log(msg)
+    init(app.db, client)
   }
 })
 
@@ -44,7 +43,7 @@ function init(db, client) {
   stamps.start = timeStamp.toISOString().slice(0,-5)
   const options = {
     hostname: config.targetAPIurl,
-    path: utils.getTargetString(config, stamps),
+    path: utils.getTargetString(config, stamps, currTargProd),
     method: 'GET',
     agent: false,
     headers: {
@@ -60,8 +59,25 @@ function init(db, client) {
     res.on('data', d => {data += d})
     res.on('end', () => {
       data = JSON.parse(data)
-      data = utils.normData(data)
-      utils.insertData(client, db, data, recurse)
+      if (data.length > 0) {
+        data = utils.normData(data)
+        utils.insertData(client, db, data, recurse)
+      }
+      else {
+        console.log('Finished data retrieval for ' + config.targetProducts[currTargProd])
+        // Go to the next product.
+        if (currTargProd < config.targetProducts.length - 1) {
+          currTargProd++
+          app.db = utils.selectCollection(app.client, config.targetExchange + '-' + config.targetProducts[currTargProd])
+          timeStamp = new Date()
+          let msg = 'Starting data-minion history for ' + app.db.s.name
+          console.log(msg)
+          utils.log(msg)
+          init(app.db, client)
+        } else if(currTargProd === config.targetProducts.length) {
+          utils.endProcess()
+        }
+      }
     })
   })
   req.on('error', err => {
