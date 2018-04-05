@@ -6,7 +6,8 @@
   "targetExchange": "GDAX",
   "targetAPIurl": "api.gdax.com",
   "targetProductString": ["https://api.gdax.com/products/" , "targetProduct" , "/candles?granularity=60&start=" , "start" , "&end=" , "end"],
-  "targetProducts": ["BCH-USD", "BTC-USD"],
-  "interval_in_hours": 3,
+  "targetProducts": ["BCH-USD"],
+  "interval_in_hours": 4,
+  "api_millis_throttle": 600,
   "logDir": "log"
 }

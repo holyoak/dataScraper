@@ -8,10 +8,12 @@ const MongoClient = require('mongodb').MongoClient
 const config = require('../config.json')
 const utils = require('./utils')
 
+// init global vars
 let timeStamp = new Date()
 let currTargProd = 0
 const app = {}
 
+// connect to dB
 MongoClient.connect(config.db.url, function (err, client) {
   console.log('connecting to mongo')
   if (err) {
@@ -33,7 +35,9 @@ MongoClient.connect(config.db.url, function (err, client) {
 })
 
 function init(db, client) {
+  // set timestamp interval for api call
   const stamps = {
+    // oops, this may be specific to GDAX !!
     end: timeStamp.toISOString().slice(0,-5)
   }
   const msg = 'Getting set ending at ' + stamps.end
@@ -41,6 +45,8 @@ function init(db, client) {
   utils.log(msg)
   timeStamp.setHours(timeStamp.getHours() - config.interval_in_hours)
   stamps.start = timeStamp.toISOString().slice(0,-5)
+
+  // set request headers
   const options = {
     hostname: config.targetAPIurl,
     path: utils.getTargetString(config, stamps, currTargProd),
@@ -53,7 +59,9 @@ function init(db, client) {
     }
   }
 
+  // init response string
   let data = ''
+  // make api request
   const req = https.request(options, res => {
     if (res.statusCode == 200) console.log('GET call successful')
     res.on('data', d => {data += d})
@@ -88,8 +96,10 @@ function init(db, client) {
   req.end()
 }
 
+// throttle api calls to avoid rate limit
 function recurse() {
   setTimeout(() => {
     init(app.db, app.client)
-  }, 2000)
+  }, config.api_millis_throttle)
 }
+
