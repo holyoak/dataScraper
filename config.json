@@ -6,7 +6,18 @@
   "targetExchange": "GDAX",
   "targetAPIurl": "api.gdax.com",
   "targetProductString": ["https://api.gdax.com/products/" , "targetProduct" , "/candles?granularity=60&start=" , "start" , "&end=" , "end"],
-  "targetProducts": ["BCH-USD"],
+  "targetProducts": [
+    "ETH-USD",
+    "LTC-USD",
+    "BCH-BTC",
+    "ETH-BTC",
+    "LTC-BTC",
+    "BCH-EUR",
+    "BTC-EUR",
+    "ETH-EUR",
+    "LTC-EUR",
+    "BTC-GBP"
+  ],
   "interval_in_hours": 4,
   "api_millis_throttle": 600,
   "logDir": "log"

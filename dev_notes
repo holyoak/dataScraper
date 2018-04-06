@@ -1,0 +1,21 @@
+TODO:  Fixes for current work
+
+* Add {_id: -1, data:'done'} 'end of data' document to datasets that have reached back to genesis
+* Add sanity check for 1 min candle data
+* Improve normalization script
+* End of data collection results in hung process, process should exit
+* Logger should report current market (not just timestamp)
+
+
+TODO:  Scaling concerns
+
+* Create static json lib of exchange[s] props in src/, keep config.json as top level config only
+* Sniff dB to see if dataset already exists, if so => sanity check and fill in gaps
+* Parallelize multiple exchange requests
+
+ROADMAP: Scope additions
+
+* Create front end for user input
+* Data visualizations
+    => see http://bl.ocks.org/andredumas/27c4a333b0e0813e093d
+* Split into public/minion forks for different use cases
