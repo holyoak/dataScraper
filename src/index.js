@@ -40,7 +40,7 @@ function init(db, client) {
     // oops, this may be specific to GDAX !!
     end: timeStamp.toISOString().slice(0,-5)
   }
-  const msg = 'Getting set ending at ' + stamps.end
+  const msg = 'Getting data set ending at ' + stamps.end + ' for market: ' + config.targetProducts[currTargProd]
   console.log(msg)
   utils.log(msg)
   timeStamp.setHours(timeStamp.getHours() - config.interval_in_hours)
@@ -73,6 +73,9 @@ function init(db, client) {
       }
       else {
         console.log('Finished data retrieval for ' + config.targetProducts[currTargProd])
+        // Mark data set retrieval as complete in the collection.
+        utils.insertData(client, db, [{_id: -1, data: 'done'}]) // Not sure if this is the best solution to do this.
+
         // Go to the next product.
         if (currTargProd < config.targetProducts.length - 1) {
           currTargProd++
@@ -83,7 +86,7 @@ function init(db, client) {
           utils.log(msg)
           init(app.db, client)
         } else if(currTargProd === config.targetProducts.length) {
-          utils.endProcess()
+          utils.endProcess(null, client)
         }
       }
     })
@@ -102,4 +105,3 @@ function recurse() {
     init(app.db, app.client)
   }, config.api_millis_throttle)
 }
-

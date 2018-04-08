@@ -1,0 +1,28 @@
+{
+  "GDAX": {
+    "targetAPIurl": "api.gdax.com",
+    "targetProductString": ["https://api.gdax.com/products/" , "targetProduct" , "/candles?granularity=60&start=" , "start" , "&end=" , "end"],
+    "targetProducts": [
+      "ETH-USD",
+      "LTC-USD",
+      "BCH-BTC",
+      "ETH-BTC",
+      "LTC-BTC",
+      "BCH-EUR",
+      "BTC-EUR",
+      "ETH-EUR",
+      "LTC-EUR",
+      "BTC-GBP"
+    ],
+    "interval_in_hours": 4,
+    "api_millis_throttle": 600,
+  },
+  "Poloniex": {
+    "targetAPIurl": "poloniex.com",
+    "targetProductString": ["https://poloniex.com/public?command=returnTradeHistory&currencyPair=" , "targetProduct" , "&start=" , "start" , "&end=" , "end"],
+    "targetProducts": [
+    ],
+    "interval_in_hours": 4,
+    "api_millis_throttle": 600,
+  }
+}
